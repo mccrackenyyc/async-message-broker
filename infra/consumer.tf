@@ -8,11 +8,12 @@ resource "azurerm_resource_group" "amb_function_rg" {
 }
 
 resource "azurerm_storage_account" "amb_function_storage" {
+  #checkov:skip=CKV_AZURE_190:Not supported in latest provider, set public_network_access_enabled argument instead
   name                          = "ambfunctionstorage${var.env_name}"
   resource_group_name           = azurerm_resource_group.amb_function_rg.name
   location                      = azurerm_resource_group.amb_function_rg.location
   account_tier                  = "Standard"
-  account_replication_type      = "LRS"
+  account_replication_type      = "GRS"
   min_tls_version               = "TLS1_2"
   public_network_access_enabled = false
 
@@ -32,6 +33,7 @@ resource "azurerm_storage_account" "amb_function_storage" {
 }
 
 resource "azurerm_service_plan" "amb_email_function_plan" {
+  #checkov:skip=CKV_AZURE_211:B1 plan suitable for proof of concept build
   name                = "amb-email-function-plan-${var.env_name}"
   resource_group_name = azurerm_resource_group.amb_function_rg.name
   location            = azurerm_resource_group.amb_function_rg.location

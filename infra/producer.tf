@@ -8,6 +8,7 @@ resource "azurerm_resource_group" "amb_appsvc_rg" {
 }
 
 resource "azurerm_service_plan" "amb_customer_processor_service_plan" {
+  #checkov:skip=CKV_AZURE_211:B1 plan suitable for proof of concept build
   name                = "amb-customer-processor-plan-${var.env_name}"
   resource_group_name = azurerm_resource_group.amb_appsvc_rg.name
   location            = azurerm_resource_group.amb_appsvc_rg.location

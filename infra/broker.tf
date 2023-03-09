@@ -8,10 +8,13 @@ resource "azurerm_resource_group" "amb_messagebroker_rg" {
 }
 
 resource "azurerm_servicebus_namespace" "amb_svcbus_ns" {
-  name                = "amb-svcbus-ns-${var.env_name}"
-  location            = azurerm_resource_group.amb_messagebroker_rg.location
-  resource_group_name = azurerm_resource_group.amb_messagebroker_rg.name
-  sku                 = "Standard"
+  name                          = "amb-svcbus-ns-${var.env_name}"
+  location                      = azurerm_resource_group.amb_messagebroker_rg.location
+  resource_group_name           = azurerm_resource_group.amb_messagebroker_rg.name
+  sku                           = "Standard"
+  local_auth_enabled            = false
+  public_network_access_enabled = false
+  minimum_tls_version           = "TLS1_2"
 
   tags = {
     tag = var.exampletag
