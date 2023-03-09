@@ -51,10 +51,10 @@ resource "azurerm_mssql_server" "amb_sql_server" {
 }
 
 resource "azurerm_mssql_database" "amb_sql_database" {
-  name           = "amb-sql-database-${var.env_name}"
-  server_id      = azurerm_mssql_server.amb_sql_server.id
-  collation      = "SQL_Latin1_General_CP1_CI_AS"
-  sku_name       = "S0"
+  name      = "amb-sql-database-${var.env_name}"
+  server_id = azurerm_mssql_server.amb_sql_server.id
+  collation = "SQL_Latin1_General_CP1_CI_AS"
+  sku_name  = "S0"
 
   tags = {
     tag = var.exampletag
