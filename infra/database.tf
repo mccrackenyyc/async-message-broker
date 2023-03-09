@@ -19,6 +19,13 @@ resource "azurerm_storage_account" "amb_sql_logs" {
   min_tls_version               = "TLS1_2"
   public_network_access_enabled = false
 
+  network_rules {
+    default_action = "Deny"
+    private_link_access {
+      endpoint_resource_id = "/subscriptions/20c17ce1-c880-4374-ab18-0c3a72158cf7/resourceGroups/amb-sql-rg-dev/providers/Microsoft.Storage/storageAccounts/ambsqllogsdev"
+    }
+  }
+
   queue_properties {
     logging {
       delete                = true
