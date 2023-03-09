@@ -9,6 +9,8 @@ resource "azurerm_resource_group" "amb_sql_rg" {
 
 resource "azurerm_storage_account" "amb_sql_logs" {
   #checkov:skip=CKV_AZURE_190:Not supported in latest provider, set public_network_access_enabled argument instead
+  #checkov:skip=CKV2_AZURE_18:Azure managed key acceptable for proof of concept build
+  #checkov:skip=CKV2_AZURE_1:Azure managed key acceptable for proof of concept build
   name                          = "ambsqllogs${var.env_name}"
   resource_group_name           = azurerm_resource_group.amb_sql_rg.name
   location                      = azurerm_resource_group.amb_sql_rg.location
@@ -33,6 +35,8 @@ resource "azurerm_storage_account" "amb_sql_logs" {
 }
 
 resource "azurerm_mssql_server" "amb_sql_server" {
+  #checkov:skip=CKV_AZURE_23:Configuration not available in resource
+  #checkov:skip=CKV_AZURE_24:Configuration not available in resource
   name                          = "amb-sql-server-${var.env_name}"
   resource_group_name           = azurerm_resource_group.amb_sql_rg.name
   location                      = azurerm_resource_group.amb_sql_rg.location
