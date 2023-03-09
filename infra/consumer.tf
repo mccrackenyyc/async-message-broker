@@ -11,6 +11,7 @@ resource "azurerm_storage_account" "amb_function_storage" {
   #checkov:skip=CKV_AZURE_190:Not supported in latest provider, set public_network_access_enabled argument instead
   #checkov:skip=CKV2_AZURE_18:Azure managed key acceptable for proof of concept build
   #checkov:skip=CKV2_AZURE_1:Azure managed key acceptable for proof of concept build
+  #checkov:skip=CKV2_AZURE_33:VNet not part of proof of concept build, private endpoint not possible 
   name                          = "ambfunctionstorage${var.env_name}"
   resource_group_name           = azurerm_resource_group.amb_function_rg.name
   location                      = azurerm_resource_group.amb_function_rg.location
@@ -18,13 +19,6 @@ resource "azurerm_storage_account" "amb_function_storage" {
   account_replication_type      = "GRS"
   min_tls_version               = "TLS1_2"
   public_network_access_enabled = false
-
-  network_rules {
-    default_action = "Deny"
-    private_link_access {
-      endpoint_resource_id = "/subscriptions/20c17ce1-c880-4374-ab18-0c3a72158cf7/resourceGroups/amb-function-rg-dev/providers/Microsoft.Storage/storageAccounts/ambfunctionstoragedev"
-    }
-  }
 
   queue_properties {
     logging {
