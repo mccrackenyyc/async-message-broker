@@ -18,29 +18,15 @@ resource "azurerm_monitor_action_group" "amb_monitor_group_main" {
   }
 }
 
-# Commented out due to bug/limitation in building monitor
-# https://github.com/hashicorp/terraform-provider-azurerm/issues/20944
-# resource "azurerm_monitor_metric_alert" "amb_alert_queue_topic_volume_irregular" {
-#   name                = "amb-alert-queue-topic-volume-irregular-${var.env_name}"
-#   resource_group_name = azurerm_resource_group.amb_monitor_rg.name
-#   scopes              = [azurerm_servicebus_namespace.amb_svcbus_ns.id]
-#   description         = "Monitors if queue or topic volumes become irregular"
-
-#   dynamic_criteria {
-#     metric_namespace  = "microsoft.servicebus/namespaces"
-#     metric_name       = "ActiveMessages"
-#     aggregation       = "Average"
-#     operator          = "GreaterOrLessThan"
-#     alert_sensitivity = "High"
-
-#     dimension {
-#       name     = "EntityName"
-#       operator = "Include"
-#       values   = ["*"]
-#     }
-#   }
-
-#   action {
-#     action_group_id = azurerm_monitor_action_group.amb_monitor_group_main.id
-#   }
-# }
+module "service_bus_alerts" {
+  for_each            = merge({ topics = local.topics }, { queues = local.queues })
+  source              = "../modules/servicebusalert"
+  env_name            = var.env_name
+  resource_group_name = azurerm_resource_group.amb_monitor_rg.name
+  scope               = azurerm_servicebus_namespace.amb_svcbus_ns.id
+  dimension_values    = keys(each.value.names)
+  action_group_id     = azurerm_monitor_action_group.amb_monitor_group_main.id
+  threshold           = each.value.threshold
+  type                = each.key
+  severity            = each.value.severity
+}

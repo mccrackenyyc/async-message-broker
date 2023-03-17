@@ -1,13 +1,21 @@
 locals {
   topics = {
-    "customer-created" = ""
-    "customer-updated" = ""
-    "region-added"     = ""
+    "threshold" = 10000
+    "severity"  = 1
+    "names" = {
+      "customer-created" = ""
+      "customer-updated" = ""
+      "region-added"     = ""
+    }
   }
   queues = {
-    "activate-customer"   = ""
-    "deactivate-customer" = ""
-    "email-customer"      = ""
+    "threshold" = 50
+    "severity"  = 2
+    "names" = {
+      "activate-customer"   = ""
+      "deactivate-customer" = ""
+      "email-customer"      = ""
+    }
   }
   functions = {
     "amb-send-email"              = ""
