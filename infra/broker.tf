@@ -25,14 +25,14 @@ resource "azurerm_servicebus_namespace" "amb_svcbus_ns" {
 }
 
 resource "azurerm_servicebus_queue" "amb_queue" {
-  for_each              = local.queues
+  for_each              = local.queues.names
   name                  = each.key
   namespace_id          = azurerm_servicebus_namespace.amb_svcbus_ns.id
   max_size_in_megabytes = 1024
 }
 
 resource "azurerm_servicebus_topic" "amb_topic" {
-  for_each     = local.topics
+  for_each     = local.topics.names
   name         = each.key
   namespace_id = azurerm_servicebus_namespace.amb_svcbus_ns.id
 }
