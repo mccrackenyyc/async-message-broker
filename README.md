@@ -9,6 +9,7 @@ Features:
  - Automated CI/CD workflow using GitHub Actions
  - Security hardened using SAST
  - Secrets passed through environment variables
+ - Module for monitoring granularity
 
 Architecture reference:
 
